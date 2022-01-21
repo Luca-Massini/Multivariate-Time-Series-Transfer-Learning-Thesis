@@ -1,4 +1,9 @@
 from datetime import datetime
+import os
+import sys
+
+module_path = os.path.abspath(os.path.join('..'))
+sys.path.append(module_path) 
 
 import numpy as np
 from Transformer.Data.Multivariate2018Dataset import Multivariate2018Dataset

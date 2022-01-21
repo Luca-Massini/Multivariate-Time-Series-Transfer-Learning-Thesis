@@ -141,3 +141,5 @@ cython_debug/
 .xml
 
 /Transformer/Data/Multivariate_ts/
+Transformer/Data/Multivariate_ts/
+Transformer/Data/Multivariate_ts/*
