@@ -6,7 +6,7 @@ from Transformer.TransformerTL_MultiLoss import TransformerTL_Loss
 from Transformer.Transformer_MVTS import *
 import importlib
 import numpy as np
-import tqdm.notebook as tq
+import tqdm as tq
 from Transformer.optimizers import RAdam
 import matplotlib.pyplot as plt
 
