@@ -141,7 +141,7 @@ class TransformerTL(nn.Module):
             weight_decay=0,
             training_loss_functions_plot=False,
             freeze=False,
-            compute_accuracy_every: int = 5):
+            compute_accuracy_every: int = 1):
 
         learning_rate_scheduler = None
 
