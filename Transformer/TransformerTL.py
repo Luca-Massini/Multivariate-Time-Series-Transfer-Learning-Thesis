@@ -140,7 +140,8 @@ class TransformerTL(nn.Module):
             verbose=False,
             weight_decay=0,
             training_loss_functions_plot=False,
-            freeze=False):
+            freeze=False,
+            compute_accuracy_every: int = 5):
 
         learning_rate_scheduler = None
 
@@ -200,6 +201,7 @@ class TransformerTL(nn.Module):
         average_loss = 0
         average_encoding_loss = 0
 
+        index = 0
         for _ in tq.tqdm(range(epochs)):
             # loss = 0
             running_classification_loss = 0.0
@@ -236,21 +238,26 @@ class TransformerTL(nn.Module):
             if ReduceLROnPlateau:
                 learning_rate_scheduler.step(average_classification_loss_value)
 
-            if print_accuracy_test or validationDataset is not None:
-                if validationDataset is not None:
-                    validation_accuracy_values.append(self.printAccuracy(dataSet=validationDataset,
-                                                                         test_model=model,
-                                                                         DEVICE=self.__DEVICE,
-                                                                         batch=batchSize,
-                                                                         train_validation="validation",
-                                                                         print_=print_accuracy_test))
-                training_accuracy_values.append(self.printAccuracy(dataSet=trainingSet,
-                                                                   test_model=model,
-                                                                   DEVICE=self.__DEVICE,
-                                                                   batch=batchSize,
-                                                                   train_validation="training",
-                                                                   print_=print_accuracy_test))
-        epochs = [i + 1 for i in range(epochs)]
+            if index + 1 == compute_accuracy_every:
+                if print_accuracy_test or validationDataset is not None:
+                    if validationDataset is not None:
+                        validation_accuracy_values.append(self.printAccuracy(dataSet=validationDataset,
+                                                                             test_model=model,
+                                                                             DEVICE=self.__DEVICE,
+                                                                             batch=batchSize,
+                                                                             train_validation="validation",
+                                                                             print_=print_accuracy_test))
+                    training_accuracy_values.append(self.printAccuracy(dataSet=trainingSet,
+                                                                       test_model=model,
+                                                                       DEVICE=self.__DEVICE,
+                                                                       batch=batchSize,
+                                                                       train_validation="training",
+                                                                       print_=print_accuracy_test))
+                index = 0
+            else:
+                index += 1
+        n_accuracy_computations = int(epochs/compute_accuracy_every)
+        epochs = [i*compute_accuracy_every for i in range(n_accuracy_computations)]
         if training_loss_functions_plot:
             plt.plot(epochs, multitask_learning_loss_value)
             plt.plot(epochs, classification_loss_values)
