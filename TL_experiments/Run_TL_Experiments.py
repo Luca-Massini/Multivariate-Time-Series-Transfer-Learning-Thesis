@@ -42,9 +42,11 @@ class Run_TL_Experiments:
             else:
                 self.__trainSet.new_length(new_length=testSet_length)
 
-    @staticmethod
-    def __buildModel(saved_model_path):
+    def __buildModel(self, saved_model_path):
         model = torch.load(saved_model_path)
+        model = model.get_transfer_learning_model(new_ts_length=self.__trainSet.get_time_length(),
+                                                  new_number_of_variables=self.__trainSet.get_channel_length(),
+                                                  new_n_classes=self.__trainSet.get_number_classes())
         return model
 
     def __runSingleExperiment(self,
