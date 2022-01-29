@@ -11,7 +11,7 @@ from Transformer.TransformerTL import TransformerTL
 import torch
 
 
-class runMultivariate2018DatasetChannel:
+class Run_TL_Experiments:
 
     def __init__(self,
                  dataSetName: str,
