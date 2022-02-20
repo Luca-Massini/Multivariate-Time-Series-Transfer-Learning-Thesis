@@ -13,8 +13,10 @@ class Run_TL_Scalability_Experiments:
                  target_dataset_test: Multivariate2018Dataset,
                  saved_Tl_Model_Path: str,
                  number_of_subsets: int,
-                 datasetName: str):
-        self.__datasetName = datasetName
+                 target_datasetName: str,
+                 source_dataset: str):
+        self.__source_dataset = source_dataset
+        self.__target_datasetName = target_datasetName
         self.__target_dataset_train = target_dataset_train
         self.__target_dataset_test = target_dataset_test
         self.__saved_Tl_Model_Path = saved_Tl_Model_Path
@@ -135,7 +137,7 @@ class Run_TL_Scalability_Experiments:
         line = "the mean accuracy is: " + str(mean_accuracy) + " and the variance is: " + str(var)
         print(line)
         file_lines.append(line)
-        txt_file = 'results_TL_reduced_dimension' + "_" + self.__datasetName + "_" + str(
+        txt_file = 'results_TL_reduced_dimension' + "_target_" + self.__target_datasetName + "_source_" + self.__source_dataset + "_percentage" + str(percentage) + str(
             datetime.now().strftime('%Y_%m_%d_%H')) + '.txt'
         txt_file_full = file_to_write_path + "/" + txt_file
         with open(txt_file_full, 'w') as f:
@@ -200,7 +202,7 @@ class Run_TL_Scalability_Experiments:
         line = "the mean accuracy is: " + str(mean_accuracy) + " and the variance is: " + str(var)
         print(line)
         file_lines.append(line)
-        txt_file = 'results_scratch_reduced_dimension' + "_" + self.__datasetName + "_" + str(
+        txt_file = 'results_scratch_reduced_dimension' + "_" + self.__target_datasetName + "_" + str(
             datetime.now().strftime('%Y_%m_%d_%H')) + '.txt'
         txt_file_full = file_to_write_path + "/" + txt_file
         with open(txt_file_full, 'w') as f:
