@@ -203,7 +203,7 @@ class Run_TL_Scalability_Experiments:
         line = "the mean accuracy is: " + str(mean_accuracy) + " and the variance is: " + str(var)
         print(line)
         file_lines.append(line)
-        txt_file = 'results_scratch_reduced_dimension' + "_" + self.__target_datasetName + "_" + str(
+        txt_file = 'results_scratch_reduced_dimension' + "_target_" + self.__target_datasetName + "_source_" + self.__source_dataset + str(
             datetime.now().strftime('%Y_%m_%d_%H')) + '.txt'
         txt_file_full = file_to_write_path + "/" + txt_file
         with open(txt_file_full, 'w') as f:
