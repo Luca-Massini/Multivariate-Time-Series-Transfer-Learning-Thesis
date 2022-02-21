@@ -104,7 +104,7 @@ class Run_TL_Scalability_Experiments:
         assert fold_index <= self.__n_splits - 1, "this dataset subset does not exist"
         self.__target_dataset_train.change_fold(fold_index)
         percentage = self.__target_dataset_train.get_percentage()
-        line = "Percentage of samples included in this subset of the training one: ", percentage, "%"
+        line = "Percentage of samples included in this subset of the training one: " + str(percentage) + "%"
         file_lines.append(line)
         print(line)
         for _ in range(n_experiments):
@@ -137,7 +137,8 @@ class Run_TL_Scalability_Experiments:
         line = "the mean accuracy is: " + str(mean_accuracy) + " and the variance is: " + str(var)
         print(line)
         file_lines.append(line)
-        txt_file = 'results_TL_reduced_dimension' + "_target_" + self.__target_datasetName + "_source_" + self.__source_dataset + "_percentage" + str(percentage) + str(
+        txt_file = 'results_TL_reduced_dimension' + "_target_" + self.__target_datasetName + "_source_" + self.__source_dataset + "_percentage" + str(
+            percentage) + str(
             datetime.now().strftime('%Y_%m_%d_%H')) + '.txt'
         txt_file_full = file_to_write_path + "/" + txt_file
         with open(txt_file_full, 'w') as f:
@@ -171,7 +172,7 @@ class Run_TL_Scalability_Experiments:
         print(line)
         self.__target_dataset_train.change_fold(fold_index)
         percentage = self.__target_dataset_train.get_percentage()
-        line = "Percentage of samples included in this subset of the training one: ", percentage, "%"
+        line = "Percentage of samples included in this subset of the training one: " + str(percentage) + "%"
         file_lines.append(line)
         print(line)
         for _ in range(n_experiments):
