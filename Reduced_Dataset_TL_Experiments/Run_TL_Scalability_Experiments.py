@@ -22,20 +22,20 @@ class Run_TL_Scalability_Experiments:
         self.__saved_Tl_Model_Path = saved_Tl_Model_Path
         self.__n_splits = number_of_subsets
         self.__from_scratch_model = None
-        self.__filter_size_autoEncoder = 3,
-        self.__n_layers_autoEncoder = 1,
-        self.__convolutions_per_layer_autoEncoder = 1,
-        self.__n_filters_index_autoEncoder = 2,
-        self.__autoEncoder_encoding_channel_size = 10,
-        self.__reducing_length_factor_autoEncoder = 2,
-        self.__embedding_size = 256,
-        self.__time_series_channels_number = self.__target_dataset_train.get_channel_length(),
-        self.__feedForward_dimension = 256,
-        self.__nHeads = 16,
-        self.__dropout = 0.1,
-        self.__time_series_length = self.__target_dataset_train.get_time_length(),
-        self.__n_classes = self.__target_dataset_train.get_number_classes(),
-        self.__n_encoders = 3,
+        self.__filter_size_autoEncoder = 3
+        self.__n_layers_autoEncoder = 1
+        self.__convolutions_per_layer_autoEncoder = 1
+        self.__n_filters_index_autoEncoder = 2
+        self.__autoEncoder_encoding_channel_size = 10
+        self.__reducing_length_factor_autoEncoder = 2
+        self.__embedding_size = 256
+        self.__time_series_channels_number = self.__target_dataset_train.get_channel_length()
+        self.__feedForward_dimension = 256
+        self.__nHeads = 16
+        self.__dropout = 0.1
+        self.__time_series_length = self.__target_dataset_train.get_time_length()
+        self.__n_classes = self.__target_dataset_train.get_number_classes()
+        self.__n_encoders = 3
         self.__device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     def set_model_hyper_parameters(self,
@@ -51,20 +51,20 @@ class Run_TL_Scalability_Experiments:
                                    dropout=0.1,
                                    n_encoders=3,
                                    device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu")):
-        self.__filter_size_autoEncoder = filter_size_autoEncoder,
-        self.__n_layers_autoEncoder = n_layers_autoEncoder,
-        self.__convolutions_per_layer_autoEncoder = convolutions_per_layer_autoEncoder,
-        self.__n_filters_index_autoEncoder = n_filters_index_autoEncoder,
-        self.__autoEncoder_encoding_channel_size = autoEncoder_encoding_channel_size,
-        self.__reducing_length_factor_autoEncoder = reducing_length_factor_autoEncoder,
-        self.__embedding_size = embedding_size,
-        self.__feedForward_dimension = feedForward_dimension,
-        self.__nHeads = nHeads,
-        self.__dropout = dropout,
-        self.__n_encoders = n_encoders,
+        self.__filter_size_autoEncoder = filter_size_autoEncoder
+        self.__n_layers_autoEncoder = n_layers_autoEncoder
+        self.__convolutions_per_layer_autoEncoder = convolutions_per_layer_autoEncoder
+        self.__n_filters_index_autoEncoder = n_filters_index_autoEncoder
+        self.__autoEncoder_encoding_channel_size = autoEncoder_encoding_channel_size
+        self.__reducing_length_factor_autoEncoder = reducing_length_factor_autoEncoder
+        self.__embedding_size = embedding_size
+        self.__feedForward_dimension = feedForward_dimension
+        self.__nHeads = nHeads
+        self.__dropout = dropout
+        self.__n_encoders = n_encoders
         self.__device = device
 
-    def build_from_scratch_model(self):
+    def __build_from_scratch_model(self):
         self.__from_scratch_model = TransformerTL(filter_size_autoEncoder=self.__filter_size_autoEncoder,
                                                   n_layers_autoEncoder=self.__n_layers_autoEncoder,
                                                   convolutions_per_layer_autoEncoder=self.__convolutions_per_layer_autoEncoder,
@@ -164,7 +164,7 @@ class Run_TL_Scalability_Experiments:
                                      n_experiments: int = 5,
                                      file_to_write_path=''):
         assert fold_index <= self.__n_splits - 1, "this dataset subset does not exist"
-        assert self.__from_scratch_model is not None, "You did not build the model before executing the experiment so it is None"
+        self.__build_from_scratch_model()
         scratch_accuracy_values = []
         file_lines = []
         line = "Training from scratch using reducing the training set size \n"
@@ -176,7 +176,7 @@ class Run_TL_Scalability_Experiments:
         file_lines.append(line)
         print(line)
         for _ in range(n_experiments):
-            self.build_from_scratch_model()
+            self.__build_from_scratch_model()
             best_validation_accuracy, line_to_be_printed = self.__from_scratch_model.fit(
                 trainingSet=self.__target_dataset_train,
                 batchSize=batchSize,
